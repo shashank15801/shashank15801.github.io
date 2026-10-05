@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shashank A | EEE student, embedded, IoT and EV charging</title>
+<meta name="description" content="Electrical & Electronics Engineering undergraduate working across embedded systems, IoT, EV charging and Java backend development.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EDF1F3;
+    --panel: #F8FAFB;
+    --ink: #14233A;
+    --muted: #4B5B70;
+    --line: #C9D3DB;
+    --accent: #0E7C86;
+    --accent-ink: #FFFFFF;
+    --warn: #C98A00;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Newsreader", Georgia, "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1822; --panel: #162231; --ink: #E6EDF3; --muted: #9AABBD;
+      --line: #26364A; --accent: #4FC3CF; --accent-ink: #0F1822; --warn: #E8B33A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1822; --panel: #162231; --ink: #E6EDF3; --muted: #9AABBD;
+    --line: #26364A; --accent: #4FC3CF; --accent-ink: #0F1822; --warn: #E8B33A;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* top bar */
+  header.bar { padding: 20px 0; }
+  header.bar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .brand { font-family: var(--display); font-weight: 700; text-decoration: none; color: var(--ink); }
+  nav a { font-family: var(--display); font-weight: 500; font-size: .95rem; color: var(--muted); text-decoration: none; margin-left: 20px; }
+  nav a:hover { color: var(--accent); }
+
+  /* hero */
+  .hero { padding: 56px 0 72px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
+  h1 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(3rem, 8vw, 5.6rem); line-height: .95; letter-spacing: -.03em; margin: 0 0 24px;
+  }
+  .hero p.lead { font-size: 1.3rem; max-width: 34ch; margin: 0 0 12px; }
+  .hero p.where { color: var(--muted); margin: 0 0 28px; font-size: 1rem; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--display); font-weight: 700; font-size: .98rem;
+    padding: 12px 20px; border-radius: 8px; text-decoration: none;
+    border: 2px solid var(--accent); color: var(--accent); background: transparent;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn:hover { filter: brightness(1.08); }
+
+  /* EVSE illustration */
+  .evse {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+  }
+  .evse h2 { font-family: var(--display); font-size: 1.05rem; margin: 0 0 4px; }
+  .evse .note { color: var(--muted); font-size: .95rem; margin: 0 0 18px; line-height: 1.45; }
+  .cap { position: relative; height: 26px; border-radius: 6px; background: var(--line); overflow: hidden; display: flex; }
+  .cap span { display: block; height: 100%; transition: width .25s ease; }
+  #barBase { background: var(--muted); }
+  #barEv { background: var(--accent); }
+  .legend { display: flex; justify-content: space-between; font-size: .9rem; color: var(--muted); margin: 6px 0 16px; }
+  .slider-row { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-size: .95rem; font-weight: 500; }
+  .slider-row input { flex: 1; accent-color: var(--accent); }
+  .chargers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
+  .charger { text-align: center; font-family: var(--display); font-size: .85rem; color: var(--muted); }
+  .charger .tube { height: 70px; border-radius: 6px; background: var(--line); display: flex; align-items: flex-end; overflow: hidden; margin-bottom: 6px; }
+  .charger .fill { width: 100%; background: var(--accent); transition: height .25s ease; }
+  #status { margin: 16px 0 0; font-size: .95rem; min-height: 1.4em; }
+  #status.limited { color: var(--warn); }
+
+  /* sections */
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  h2.title { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.4rem); letter-spacing: -.02em; margin: 0 0 28px; }
+  .two { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+  .about p { margin: 0 0 16px; max-width: 62ch; }
+
+  .project { border-left: 4px solid var(--accent); padding: 4px 0 4px 22px; margin-bottom: 40px; max-width: 70ch; }
+  .project:last-child { margin-bottom: 0; }
+  .project h3 { font-family: var(--display); font-size: 1.4rem; line-height: 1.25; margin: 0 0 6px; }
+  .project .stack { color: var(--muted); font-size: 1rem; margin: 0 0 12px; }
+  .badge {
+    display: inline-block; font-family: var(--display); font-weight: 700; font-size: .8rem;
+    background: var(--warn); color: #14233A; padding: 2px 10px; border-radius: 99px; margin-left: 8px; vertical-align: middle;
+  }
+  ul { margin: 0; padding-left: 1.2em; }
+  li { margin-bottom: 8px; }
+
+  .job h3 { font-family: var(--display); font-size: 1.3rem; margin: 0 0 2px; }
+  .job .when { color: var(--muted); margin: 0 0 12px; }
+
+  dl.skills { display: grid; grid-template-columns: 220px 1fr; gap: 14px 24px; margin: 0; }
+  dl.skills dt { font-family: var(--display); font-weight: 700; }
+  dl.skills dd { margin: 0; }
+
+  .edu { margin-bottom: 20px; }
+  .edu strong { font-family: var(--display); font-size: 1.1rem; display: block; }
+  .edu span { color: var(--muted); }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .cols h3 { font-family: var(--display); font-size: 1.2rem; margin: 0 0 12px; }
+
+  footer { border-top: 1px solid var(--line); padding: 40px 0 56px; color: var(--muted); font-size: 1rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 820px) {
+    .hero .wrap, .two, .cols { grid-template-columns: 1fr; gap: 32px; }
+    dl.skills { grid-template-columns: 1fr; gap: 2px; }
+    dl.skills dd { margin-bottom: 14px; }
+    nav a { margin: 0 16px 0 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cap span, .charger .fill { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">Shashank A</a>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Internship</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Shashank A</h1>
+        <p class="lead">Electrical &amp; Electronics Engineering undergraduate working across embedded systems, IoT, EV charging and Java backend development.</p>
+        <p class="where">Whitefield, Bengaluru</p>
+        <div class="btns">
+          <a class="btn primary" href="https://github.com/shashank15801" target="_blank" rel="noopener">See my GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/shashank-a-070940ab" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="mailto:shashank.achar.a@gmail.com">Email me</a>
+        </div>
+      </div>
+
+      <div class="evse" aria-labelledby="evseTitle">
+        <h2 id="evseTitle">The idea behind my EVSE project</h2>
+        <p class="note">Four chargers share what the building has left. Raise the building load and watch them back off instead of overloading the circuit.</p>
+        <div class="cap" role="img" aria-label="Building capacity bar showing building load and EV charging demand">
+          <span id="barBase"></span><span id="barEv"></span>
+        </div>
+        <div class="legend"><span>Building load</span><span id="capLabel">EV charging</span></div>
+        <label class="slider-row" for="load">Building load
+          <input id="load" type="range" min="0" max="36" value="14">
+          <output id="loadOut">14 kW</output>
+        </label>
+        <div class="chargers" id="chargers"></div>
+        <p id="status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap two">
+      <h2 class="title">About</h2>
+      <div class="about">
+        <p>I'm an Electrical &amp; Electronics Engineering undergraduate with hands-on experience across embedded systems, IoT, EV charging and software development.</p>
+        <p>I work in Java, Python, C and SQL, and on microcontroller-based systems. My projects cover REST APIs, real-time telemetry, sensor-based monitoring and load-aware EV charging.</p>
+        <p>I'm interested in embedded software, IoT, EV/EVSE, automotive electronics and technology engineering roles.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2 class="title">Projects</h2>
+
+      <article class="project">
+        <h3>Adaptive Load-Aware EVSE Architecture for Residential Buildings <span class="badge">Ongoing</span></h3>
+        <p class="stack">EVSE, IoT, Load Management</p>
+        <ul>
+          <li>Designing a smart EV charging architecture that monitors building load and dynamically manages EV charging demand across residential circuits.</li>
+          <li>Developing load-aware control logic to reduce overload risk during simultaneous EV charging in multi-unit buildings.</li>
+          <li>Exploring real-time current sensing and distributed charger decision-making to keep building demand within available electrical capacity.</li>
+        </ul>
+      </article>
+
+      <article class="project">
+        <h3>IoT Device Fleet Manager</h3>
+        <p class="stack">Java, Spring Boot, PostgreSQL, WebSockets, JWT</p>
+        <ul>
+          <li>Built a backend application using Java and Spring Boot with REST APIs for IoT device registration, telemetry ingestion and device configuration.</li>
+          <li>Implemented real-time telemetry alerting using WebSockets and secured application access with JWT-based authentication.</li>
+          <li>Designed a backend workflow for managing connected device data and telemetry using a relational database.</li>
+        </ul>
+      </article>
+
+      <article class="project">
+        <h3>IoT-Enabled Predictive Battery Management System</h3>
+        <p class="stack">ESP32, Sensors, Firebase, HTTP</p>
+        <ul>
+          <li>Developed an ESP32-based single-cell Li-ion battery monitoring system for real-time voltage, current and temperature measurement.</li>
+          <li>Integrated sensor data acquisition with threshold-based monitoring and protection logic for battery operating conditions.</li>
+          <li>Sent sensor data to Firebase for real-time remote monitoring and cloud-based data visualization.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap two">
+      <h2 class="title">Internship</h2>
+      <div class="job">
+        <h3>Intern, BESCOM</h3>
+        <p class="when">June 2025</p>
+        <ul>
+          <li>Worked with Distribution Automation Systems (DAS), gaining exposure to real-time monitoring, control and optimization of electrical power distribution networks.</li>
+          <li>Gained practical exposure to SCADA systems, fault detection and data acquisition in smart-grid environments.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap two">
+      <h2 class="title">Skills</h2>
+      <dl class="skills">
+        <dt>Programming</dt><dd>C, Python, Java</dd>
+        <dt>Embedded &amp; IoT</dt><dd>ESP32, Arduino, STM32, sensor integration, real-time monitoring</dd>
+        <dt>Communication protocols</dt><dd>I2C, SPI, UART, RS485, TCP/IP</dd>
+        <dt>Electrical &amp; EV</dt><dd>EV charging systems, battery management systems, load management</dd>
+        <dt>Software &amp; database</dt><dd>SQL, REST APIs, Spring Boot, PostgreSQL</dd>
+        <dt>Engineering tools</dt><dd>MATLAB, Git, GitHub, Fusion 360, Proteus, IntelliJ</dd>
+        <dt>Coding practice</dt><dd>Data Structures &amp; Algorithms</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap two">
+      <h2 class="title">Education</h2>
+      <div>
+        <div class="edu">
+          <strong>B.E. in Electrical &amp; Electronics Engineering</strong>
+          <span>New Horizon College of Engineering | CGPA 8.32 | Expected July 2027</span>
+        </div>
+        <div class="edu">
+          <strong>PUC, PCMB</strong>
+          <span>Gopalan PU College | KSEAB | 70.8% | April 2022</span>
+        </div>
+        <div class="edu">
+          <strong>SSLC</strong>
+          <span>Sisa Kendra | KSEEB | 81.6% | June 2020</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leadership">
+    <div class="wrap cols">
+      <div>
+        <h2 class="title">Leadership</h2>
+        <ul>
+          <li>Secretary, IEEE PELS NHCE Student Branch Chapter (2026)</li>
+          <li>Board Member, Green Energy Club, NHCE (2025)</li>
+          <li>Led publication of the Green Energy Club magazine (July to December 2024)</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="title">Achievements</h2>
+        <ul>
+          <li>First Place, Scratchpad, Green Energy Club</li>
+          <li>First Place, OHM-AZING Buildathon</li>
+          <li>Winner, Ergonomics &amp; Aesthetics, National Level Mega E-Bike Championship</li>
+          <li>Winner, Best Self-Manufactured Design, National Level Mega E-Bike Championship</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="wrap two">
+      <h2 class="title">Certifications</h2>
+      <ul>
+        <li>Schneider PLC Tutorial for Beginners with Ladder and SFC (Udemy)</li>
+        <li>Advanced Software Engineering Job Simulation (Forage)</li>
+        <li>Getting Started with Artificial Intelligence (IBM SkillsBuild)</li>
+        <li>Introduction to Internet of Things (NPTEL)</li>
+        <li>Introduction to Industry 4.0 and Industrial Internet of Things (NPTEL)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap two">
+      <h2 class="title">Contact</h2>
+      <div>
+        <p style="margin-top:0">The quickest way to reach me is email.</p>
+        <p>
+          <a href="mailto:shashank.achar.a@gmail.com">shashank.achar.a@gmail.com</a><br>
+          <a href="https://www.linkedin.com/in/shashank-a-070940ab" target="_blank" rel="noopener">linkedin.com/in/shashank-a-070940ab</a><br>
+          <a href="https://github.com/shashank15801" target="_blank" rel="noopener">github.com/shashank15801</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Shashank A, Whitefield, Bengaluru</span>
+    <span>Built with plain HTML and CSS</span>
+  </div>
+</footer>
+
+<script>
+  // Small illustration of load-aware charging: chargers share whatever capacity the building has left.
+  (function () {
+    var CAPACITY = 40;      // illustrative building capacity, kW
+    var CHARGERS = 4;
+    var WANT = 7;           // illustrative demand per charger, kW
+    var slider = document.getElementById('load');
+    var out = document.getElementById('loadOut');
+    var base = document.getElementById('barBase');
+    var ev = document.getElementById('barEv');
+    var cap = document.getElementById('capLabel');
+    var status = document.getElementById('status');
+    var box = document.getElementById('chargers');
+
+    var fills = [];
+    for (var i = 0; i < CHARGERS; i++) {
+      var c = document.createElement('div');
+      c.className = 'charger';
+      c.innerHTML = '<div class="tube"><div class="fill"></div></div>Charger ' + (i + 1);
+      box.appendChild(c);
+      fills.push(c.querySelector('.fill'));
+    }
+
+    function update() {
+      var load = Number(slider.value);
+      var free = Math.max(0, CAPACITY - load);
+      var each = Math.min(WANT, free / CHARGERS);
+      var total = each * CHARGERS;
+
+      out.textContent = load + ' kW';
+      base.style.width = (load / CAPACITY * 100) + '%';
+      ev.style.width = (total / CAPACITY * 100) + '%';
+      cap.textContent = 'EV charging ' + total.toFixed(1) + ' kW of ' + free + ' kW free';
+
+      fills.forEach(function (f) { f.style.height = (each / WANT * 100) + '%'; });
+
+      if (each >= WANT) {
+        status.textContent = 'Plenty of headroom. All chargers run at full power.';
+        status.className = '';
+      } else if (each > 0) {
+        status.textContent = 'Building load is high. Chargers are sharing ' + free + ' kW.';
+        status.className = 'limited';
+      } else {
+        status.textContent = 'No spare capacity. Charging is paused.';
+        status.className = 'limited';
+      }
+    }
+    slider.addEventListener('input', update);
+    update();
+  })();
+</script>
+</body>
+</html>
